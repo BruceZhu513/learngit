@@ -1,0 +1,44 @@
+OPENCV下SIFT特征点提取与匹配的大致流程如下：
+
+读取图片-》特征点检测（位置，角度，层）-》特征点描述的提取（16*8维的特征向量）-》匹配-》显示
+
+其中，特征点提取主要有两个步骤，见上行黄子部分。下面做具体分析。
+
+1、使用opencv内置的库读取两幅图片
+
+2、得到keypoints和特征向量descriptor
+
+3、对图像所有KEYPOINT提取其特征向量：
+
+得到keypoint只是达到了关键点的位置，方向等信息，并无该特征点的特征向量产生的特征点进行遍历，
+
+4、对两幅图的特征向量进行匹配，得到匹配值。(一个包含Dmatches的列表)
+
+关于Dmatch对象
+struct DMatch
+{
+    int queryIdx; // kp1[mat.queryIdx].pt
+    int trainIdx; 
+    int imgIdx;   
+
+    float distance;//特征向量之间的距离。越小越好。
+};
+
+
+
+关于keypoints对象
+class KeyPoint
+
+{               Point2f  pt;  //坐标
+
+             float  size; //特征点邻域直径
+
+             float  angle; //特征点的方向，值为[零,三百六十)，负值表示不使用
+
+             float  response;
+
+             int  octave; //特征点所在的图像金字塔的组
+
+             int  class_id; //用于聚类的id
+
+}
